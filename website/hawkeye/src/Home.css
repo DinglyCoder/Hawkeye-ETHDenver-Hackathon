@@ -1,10 +1,13 @@
 /* Layout */
 .app-layout {
   display: grid;
-  grid-template-columns: 250px 1fr 300px;
+  grid-template-columns: 250px minmax(auto, 1200px) 300px;
   min-height: 100vh;
   background-color: var(--color-background);
   color: var(--color-text-white);
+  justify-content: center;
+  gap: 0;
+  margin: 0 auto;
 }
 
 .left-sidebar {
@@ -13,13 +16,17 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  width: 250px;
 }
 
 .main-feed {
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  width: 100%;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .right-sidebar {
@@ -28,6 +35,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  width: 300px;
 }
 
 /* Navigation */
@@ -55,26 +63,39 @@
 
 /* Post Composition */
 .post-container {
+  width: 100%;
+  max-width: 600px;
   border-bottom: 1px solid var(--color-border);
-  padding-bottom: 20px;
+  padding: 20px;
   margin-bottom: 20px;
+  background: var(--color-gray);
+  border-radius: 12px;
 }
 
 .post-textbox {
   width: 100%;
   height: 100px;
-  background: var(--color-gray);
+  background: transparent;
   border: none;
   border-radius: 10px;
   padding: 15px;
   color: var(--color-text-white);
   margin-bottom: 10px;
   resize: none;
+  font-size: 16px;
+}
+
+.post-textbox::placeholder {
+  color: var(--color-text-secondary);
 }
 
 .post-footer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
 }
 
 .post-button {
@@ -90,6 +111,20 @@
 .post-button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.char-counter {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.char-counter.warning {
+  color: #ffad1f;
+}
+
+.char-counter.error {
+  color: #ff4242;
 }
 
 /* Search */
@@ -118,4 +153,46 @@
   color: var(--color-primary);
   font-size: 1.5rem;
   margin-bottom: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .app-layout {
+    grid-template-columns: 250px minmax(auto, 800px) 300px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .app-layout {
+    grid-template-columns: 80px minmax(auto, 600px) 300px;
+  }
+  
+  .left-sidebar {
+    width: 80px;
+  }
+  
+  .nav-button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .left-sidebar,
+  .right-sidebar {
+    display: none;
+  }
+  
+  .main-feed {
+    padding: 10px;
+  }
 }

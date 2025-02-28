@@ -8,6 +8,25 @@ function Home() {
   const user = searchParams.get("user");
   const [postContent, setPostContent] = React.useState("");
   const [isPosting, setIsPosting] = React.useState(false);
+  const maxChars = 280;
+
+  const handleContentChange = (e) => {
+    const text = e.target.value;
+    if (text.length <= maxChars) {
+      setPostContent(text);
+    }
+  };
+
+  const getRemainingChars = () => {
+    return maxChars - postContent.length;
+  };
+
+  const getCounterClass = () => {
+    const remaining = getRemainingChars();
+    if (remaining <= 20) return "char-counter error";
+    if (remaining <= 40) return "char-counter warning";
+    return "char-counter";
+  };
 
   // PostPage functionality integrated
   const handlePost = async () => {
@@ -42,10 +61,13 @@ function Home() {
             className="post-textbox"
             placeholder="What's happening in Web3?"
             value={postContent}
-            onChange={(e) => setPostContent(e.target.value)}
-            maxLength={280}
+            onChange={handleContentChange}
+            maxLength={maxChars}
           />
           <div className="post-footer">
+            <span className={getCounterClass()}>
+              {getRemainingChars()}
+            </span>
             <button
               className="post-button"
               onClick={handlePost}

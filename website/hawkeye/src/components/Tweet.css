@@ -7,10 +7,6 @@
     transition: background-color 0.2s ease;
 }
 
-.tweet:hover {
-    background-color: var(--color-gray-hover);
-}
-
 .tweet-header {
     display: flex;
     align-items: flex-start;
