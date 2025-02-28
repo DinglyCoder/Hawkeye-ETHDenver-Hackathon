@@ -1,11 +1,13 @@
-import { BrowserProvider } from "ethers"; // Import ethers.js v6
+import { BrowserProvider } from "ethers";
 import React, { useEffect, useState } from "react";
-import "./login.css"; // Import CSS for styling
+import { useNavigate } from "react-router-dom"; // Import React Router navigation
+import "./login.css";
 
 function Login() {
   const [twitterUser, setTwitterUser] = useState(localStorage.getItem("twitterUser") || null);
   const [walletAddress, setWalletAddress] = useState(localStorage.getItem("walletAddress") || null);
   const [signature, setSignature] = useState(localStorage.getItem("signature") || null);
+  const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -33,6 +35,10 @@ function Login() {
         localStorage.setItem("signature", signedMessage);
         setWalletAddress(wallet);
         setSignature(signedMessage);
+
+        // ✅ Redirect to Home Page with user in URL
+        navigate(`/home?user=${twitterUser}`);
+
       } catch (error) {
         console.error("Wallet connection or signing failed:", error);
       }
