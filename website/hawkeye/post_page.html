@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Post</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --color-primary: #61FF31;
             --color-orange: #DD5205;
             --color-text-white: #CCE7CC;
             --color-primary-hover: #61FF31;
-            --color-background: #0C1110;
+            --color-background: #0C1010;
             --color-gray: #242831;
-            --color-border: #0C1110;
+            --color-border: 0C1010;
             --color-text-secondary: #657786;
             --color-shadow: rgba(0, 0, 0, 0.1);
             --color-shadow-focus: rgba(29, 161, 242, 0.1);
@@ -24,6 +25,8 @@
             padding: 20px;
             margin: 0;
             background-color: var(--color-background);
+            min-height: 100vh;
+            align-items: flex-start;
         }
 
         .post-container {
@@ -34,6 +37,8 @@
             border-radius: 8px;
             box-shadow: 0px 2px 5px var(--color-shadow);
             box-sizing: border-box;
+            margin-top: 20px;
+            height: fit-content;
         }
 
         .post-textbox {
@@ -48,6 +53,7 @@
             outline: none;
             box-shadow: 0 2px 4px var(--color-shadow);
             min-height: 150px;
+            max-height: 300px;
             resize: vertical;
             box-sizing: border-box;
             display: block;
@@ -89,16 +95,29 @@
             padding: 12px 24px;
             cursor: pointer;
             margin-right: auto;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .image-button::before {
-            content: "🖼️";
-            margin-right: 5px;
-            font-size: 18px;
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-image: url('assets/images/logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
         }
 
         .post-button:hover {
             background-color: var(--color-primary-hover);
+            color: var(--color-background);
         }
 
         .sidebar {
@@ -132,6 +151,7 @@
         .search-textbox:focus {
             border-color: var(--color-primary);
             box-shadow: 0 2px 8px var(--color-shadow-focus);
+            color: var(--color-background);
         }
 
         .sidebar-menu {
@@ -153,19 +173,24 @@
             font-size: 20px;
             font-weight: 500;
             font-family: 'Inter', sans-serif;
-            color: var(--color-text-white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .menu-link {
             text-decoration: none;
-            color: var(--color-text-white);
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
         }
         
         .char-counter {
             color: var(--color-text-white);
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             display: flex;
+            margin-right: 10px;
             align-items: center;
         }
 
@@ -176,11 +201,37 @@
         .char-counter.error {
             color: #ff4242;
         }
+
+        .logo-container {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+        }
+
+        .logo {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            display: block;
+        }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
     </style>
 </head>
 <body>
 
     <aside class="sidebar left">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="assets/images/humanity-protocol1.png" alt="Logo">
+            </div>
+        </div>
         <div class="sidebar-menu">
             <div class="menu-item">
                 <a href="/profile" class="menu-link">Your Profile</a>
@@ -195,10 +246,13 @@
     </aside>
     
     <div class="post-container">
-        <textarea class="post-textbox" placeholder="What's on your mind?" maxlength="280"></textarea>
+        <textarea class="post-textbox" placeholder="What is happening?!" maxlength="280"></textarea>
         <input type="file" id="media-upload" accept="image/*" style="display: none;">
         <div class="button-container">
-            <button onclick="document.getElementById('media-upload').click();" id="add-image-btn" class="image-button"></button>
+            <button onclick="document.getElementById('media-upload').click();" id="add-image-btn" class="image-button">
+                <i class="fas fa-image"></i>
+                Add Image
+            </button>
             <span class="char-counter">280</span>
             <button class="post-button">Post</button>
         </div>
@@ -220,6 +274,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const textbox = document.querySelector('.post-textbox');
             const counter = document.querySelector('.char-counter');
+            const postButton = document.querySelector('.post-button');
             const maxLength = 280;
 
             function updateCounter() {
@@ -235,7 +290,54 @@
                 }
             }
 
+            async function handlePost() {
+                const postContent = textbox.value.trim();
+                
+                if (!postContent) {
+                    alert('Please enter some text before posting.');
+                    return;
+                }
+
+                // Disable the button while posting
+                postButton.disabled = true;
+                postButton.style.opacity = '0.7';
+                postButton.textContent = 'Posting...';
+
+                try {
+                    const response = await fetch('/api/posts', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            content: postContent,
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to create post');
+                    }
+
+                    // Clear the textbox after successful post
+                    textbox.value = '';
+                    updateCounter();
+                    alert('Post created successfully!');
+
+                } catch (error) {
+                    console.error('Error creating post:', error);
+                    alert('Failed to create post. Please try again.');
+                } finally {
+                    // Re-enable the button
+                    postButton.disabled = false;
+                    postButton.style.opacity = '1';
+                    postButton.textContent = 'Post';
+                }
+            }
+
+            // Add event listeners
             textbox.addEventListener('input', updateCounter);
+            postButton.addEventListener('click', handlePost);
             updateCounter(); // Initial count
         });
     </script>
