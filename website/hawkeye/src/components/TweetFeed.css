@@ -1,0 +1,23 @@
+.tweet-feed {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Add a subtle divider between tweets */
+.tweet-feed > *:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .tweet-feed {
+        padding: 12px;
+        gap: 12px;
+    }
+} 
