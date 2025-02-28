@@ -16,10 +16,10 @@ Short description of the team and their backgrounds
 Our team is a team of Students from The University of Texas at Austin. We represent the Texas Blockchain student organization. 
 Our memmbers include:
 
-> Kyla (kojaewhi22) - Frontend Engineer \n
-> Akshat (DinglyCoder) - Frontend Engineer
-> Shanti (shazam8253) - Backend Engineer
-> Adarsh (Adarsh54) - Smart Contract Engineer
+> Kyla (kojaewhi22) - Frontend Engineer <
+- Akshat (DinglyCoder) - Frontend Engineer
+- Shanti (shazam8253) - Backend Engineer
+- Adarsh (Adarsh54) - Smart Contract Engineer
 
 # clear instructions for testing the integration
 
