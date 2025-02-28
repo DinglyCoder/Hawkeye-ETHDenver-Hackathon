@@ -1,3 +1,4 @@
+/* login.css */
 :root {
     --color-primary: #61FF31;
     --color-orange: #DD5205;
@@ -10,79 +11,79 @@
     --color-text-secondary: #657786;
     --color-shadow: rgba(0, 0, 0, 0.1);
     --color-shadow-focus: rgba(29, 161, 242, 0.1);
-}
-
-* {
+  }
+  
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body {
+  }
+  
+  body {
     font-family: 'Inter', sans-serif;
     background-color: var(--color-background);
     color: var(--color-text-white);
     min-height: 100vh;
     display: flex;
-}
-
-.split {
+  }
+  
+  .split {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 40px;
-}
-
-.logo-side {
+  }
+  
+  .logo-side {
     background-color: var(--color-background);
     position: relative;
-}
-
-.logo-container {
+  }
+  
+  .logo-container {
     width: 100%;
     max-width: 500px;
     text-align: center;
-}
-
-.logo-container img {
+  }
+  
+  .logo-container img {
     width: 100%;
     height: auto;
     margin-bottom: 20px;
-}
-
-.tagline {
+  }
+  
+  .tagline {
     font-size: 24px;
     color: var(--color-text-white);
     margin-top: 20px;
     text-align: center;
-}
-
-.login-side {
+  }
+  
+  .login-side {
     background-color: var(--color-gray);
-}
-
-.login-container {
+  }
+  
+  .login-container {
     background-color: var(--color-background);
     padding: 40px;
     border-radius: 15px;
     width: 100%;
     max-width: 400px;
     box-shadow: 0 4px 6px var(--color-shadow);
-}
-
-.login-header {
+  }
+  
+  .login-header {
     text-align: center;
     margin-bottom: 30px;
-}
-
-.login-header h2 {
+  }
+  
+  .login-header h2 {
     font-size: 24px;
     color: var(--color-text-white);
     margin-bottom: 10px;
-}
-
-.auth-button {
+  }
+  
+  .auth-button {
     width: 100%;
     padding: 15px;
     border-radius: 30px;
@@ -95,78 +96,132 @@ body {
     justify-content: center;
     gap: 10px;
     margin-bottom: 15px;
-}
-
-.x-login-button {
+  }
+  
+  .x-login-button {
     background-color: #000000;
     color: var(--color-text-white);
     border: 1px solid #333;
-}
-
-.x-login-button:hover {
+  }
+  
+  .x-login-button:hover {
     background-color: #333;
-}
-
-.wallet-button {
+  }
+  
+  .wallet-button {
     background-color: var(--color-orange);
     color: var(--color-text-white);
     border: none;
-}
-
-.wallet-button:hover {
+  }
+  
+  .wallet-button:hover {
     background-color: var(--color-primary);
     color: var(--color-background);
-}
-
-.divider {
+  }
+  
+  .divider {
     display: flex;
     align-items: center;
     text-align: center;
     margin: 20px 0;
     color: var(--color-text-secondary);
-}
-
-.divider::before,
-.divider::after {
+  }
+  
+  .divider::before,
+  .divider::after {
     content: '';
     flex: 1;
     border-bottom: 1px solid var(--color-text-secondary);
-}
-
-.divider span {
+  }
+  
+  .divider span {
     padding: 0 10px;
-}
-
-.login-footer {
+  }
+  
+  .login-footer {
     text-align: center;
     margin-top: 20px;
     color: var(--color-text-secondary);
     font-size: 14px;
-}
-
-.login-footer a {
+  }
+  
+  .login-footer a {
     color: var(--color-primary);
     text-decoration: none;
-}
-
-.login-footer a:hover {
+  }
+  
+  .login-footer a:hover {
     text-decoration: underline;
-}
-
-@media (max-width: 768px) {
+  }
+  
+  @media (max-width: 768px) {
     body {
-        flex-direction: column;
+      flex-direction: column;
     }
-
+  
     .split {
-        padding: 20px;
+      padding: 20px;
     }
-
+  
     .logo-container {
-        max-width: 300px;
+      max-width: 300px;
     }
-
+  
     .login-container {
-        padding: 20px;
+      padding: 20px;
     }
-}
+  }
+
+  /* login.css */
+/* Add this at the bottom of the file */
+
+/* Reset conflicting body styles */
+.login-page body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* Contain layout to login component */
+  .login-page {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+  }
+  
+  /* Override any conflicting App styles */
+  .login-page .App {
+    text-align: left;
+    display: flex;
+    width: 100%;
+  }
+  
+  /* Ensure splits take full height */
+  .login-page .split {
+    height: 100vh;
+  }
+
+  @media (max-width: 768px) {
+    .login-page .split {
+      height: auto;
+      min-height: 50vh;
+    }
+    
+    .login-page .login-container {
+      margin-top: -20px;
+    }
+  }
+
+  .login-page .split {
+    flex: 1 1 50%;
+    min-width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }

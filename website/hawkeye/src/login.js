@@ -45,7 +45,7 @@ function Login() {
     <div className="login-page">
       <div className="split logo-side">
         <div className="logo-container">
-          <img src="C:\Users\Kiran\Documents\Shantikiran\Projects\Hawkeye\ETHDenver\website\hawkeye\assets\icons\hawkeye_logo.png" alt="Hawkeye Logo" />
+          <img src="../assets/icons/hawkeye_logo.png" alt="Hawkeye Logo" />
           <p className="tagline">Empowering Web3 Communication</p>
         </div>
       </div>
