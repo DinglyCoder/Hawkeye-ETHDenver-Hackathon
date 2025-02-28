@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TweetFeed from './TweetFeed';
+import TweetFeed from './components/TweetFeed';
 import './PostPage.css';
 
 function PostPage() {
