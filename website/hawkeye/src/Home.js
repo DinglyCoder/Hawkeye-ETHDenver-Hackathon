@@ -1,16 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Home.css"; // Import CSS for styling
 
 function Home() {
-  const handleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/twitter"; // Redirects to backend authentication
-  };
+  useEffect(() => {
+    // Redirect to hawkeye.html
+    window.location.href = "/hawkeye.html";
+  }, []);
 
-  return (
-    <div className="home-container">
-      
-    </div>
-  );
+  // Return empty div while redirecting
+  return <div></div>;
 }
 
 export default Home;

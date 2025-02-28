@@ -195,7 +195,7 @@
                 <p>Choose how you'd like to continue</p>
             </div>
             
-            <button class="auth-button x-login-button">
+            <button class="auth-button x-login-button" id="x-login-btn">
                 <i class="fab fa-x-twitter"></i>
                 Log in with X
             </button>
@@ -204,7 +204,7 @@
                 <span>Then</span>
             </div>
 
-            <button class="auth-button wallet-button">
+            <button class="auth-button wallet-button" id="connect-wallet-btn">
                 <i class="fas fa-wallet"></i>
                 Connect Wallet
             </button>
@@ -214,5 +214,96 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const xLoginBtn = document.getElementById('x-login-btn');
+            const connectWalletBtn = document.getElementById('connect-wallet-btn');
+
+            // Function to handle X (Twitter) authentication
+            async function handleXLogin() {
+                try {
+                    xLoginBtn.disabled = true;
+                    xLoginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+
+                    // Make request to backend to initiate X auth
+                    const response = await fetch('/auth/twitter', {
+                        method: 'GET',
+                        credentials: 'include', // Include cookies in the request
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to initiate X authentication');
+                    }
+
+                    const data = await response.json();
+
+                    if (!data.authUrl) {
+                        throw new Error("Authentication URL not received.");
+                    }
+
+                    // Open X auth popup
+                    const width = 600;
+                    const height = 600;
+                    const left = (window.innerWidth - width) / 2;
+                    const top = (window.innerHeight - height) / 2;
+                    
+                    const popup = window.open(
+                        data.authUrl,
+                        'Login with X',
+                        `width=${width},height=${height},left=${left},top=${top},popup=1`
+                    );
+
+                    // Poll for popup closure and authentication completion
+                    const pollTimer = setInterval(() => {
+                        if (popup.closed) {
+                            clearInterval(pollTimer);
+                            // Check authentication status
+                            checkAuthStatus();
+                        }
+                    }, 500);
+
+                } catch (error) {
+                    console.error('X authentication error:', error);
+                    alert('Failed to connect with X. Please try again.');
+                } finally {
+                    // Reset button state
+                    xLoginBtn.disabled = false;
+                    xLoginBtn.innerHTML = '<i class="fab fa-x-twitter"></i> Log in with X';
+                }
+            }
+
+            // Function to check authentication status
+            async function checkAuthStatus() {
+                try {
+                    const response = await fetch('/auth/status', {
+                        method: 'GET',
+                        credentials: 'include',
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to check auth status');
+                    }
+
+                    const data = await response.json();
+
+                    if (data.authenticated) {
+                        // Redirect to main app or update UI
+                        window.location.href = '/post_page.html';
+                    }
+                } catch (error) {
+                    console.error('Auth status check error:', error);
+                }
+            }
+
+            // Add click event listener for X login
+            xLoginBtn.addEventListener('click', handleXLogin);
+
+            // Placeholder for wallet connection
+            connectWalletBtn.addEventListener('click', () => {
+                alert('Wallet connection coming soon!');
+            });
+        });
+    </script>
 </body>
 </html> 
