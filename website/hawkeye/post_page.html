@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <style>
+        :root {
+            --color-primary: #61FF31;
+            --color-orange: #DD5205;
+            --color-text-white: #CCE7CC;
+            --color-primary-hover: #61FF31;
+            --color-background: #0C1110;
+            --color-gray: #242831;
+            --color-border: #0C1110;
+            --color-text-secondary: #657786;
+            --color-shadow: rgba(0, 0, 0, 0.1);
+            --color-shadow-focus: rgba(29, 161, 242, 0.1);
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+            background-color: var(--color-background);
+        }
+
+        .post-container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--color-gray);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px var(--color-shadow);
+            box-sizing: border-box;
+        }
+
+        .post-textbox {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid var(--color-border);
+            color: var(--color-text-white);
+            border-radius: 8px;
+            background-color: var(--color-gray);
+            transition: border-color 0.3s ease;
+            outline: none;
+            box-shadow: 0 2px 4px var(--color-shadow);
+            min-height: 150px;
+            resize: vertical;
+            box-sizing: border-box;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .post-textbox:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 2px 8px var(--color-shadow-focus);
+        }
+
+        .post-textbox::placeholder {
+            color: var(--color-text-secondary);
+        }
+
+        .post-button {
+            background-color: var(--color-orange);
+            color: var(--color-white);
+            color: var(--color-text-white);
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 30px;
+            font-size: 16px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .image-button {
+            background: none;
+            color: var(--color-text-secondary);
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            margin-right: auto;
+        }
+
+        .image-button::before {
+            content: "🖼️";
+            margin-right: 5px;
+            font-size: 18px;
+        }
+
+        .post-button:hover {
+            background-color: var(--color-primary-hover);
+        }
+
+        .sidebar {
+            width: 300px;
+            padding: 20px;
+            background-color: var(--color-background);
+            border-left: 1px solid var(--color-background);
+        }
+        
+        .right {
+            border-left: 1px solid var(--color-background);
+        }
+
+        .search-textbox {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            background-color: var(--color-gray);
+            color: var(--color-text-white);
+            transition: border-color 0.3s ease;
+            outline: none;
+            box-shadow: 0 2px 4px var(--color-shadow);
+            height: 45px;
+            box-sizing: border-box;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .search-textbox:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 2px 8px var(--color-shadow-focus);
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: var(--color-background);
+            border: 1px solid var(--color-border);
+            margin-bottom: 10px;
+        }
+        
+        .menu-item {
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            color: var(--color-text-white);
+        }
+        
+        .menu-link {
+            text-decoration: none;
+            color: var(--color-text-white);
+        }
+        
+        .char-counter {
+            color: var(--color-text-white);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .char-counter.warning {
+            color: #ffae42;
+        }
+
+        .char-counter.error {
+            color: #ff4242;
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar left">
+        <div class="sidebar-menu">
+            <div class="menu-item">
+                <a href="/profile" class="menu-link">Your Profile</a>
+            </div>
+            <div class="menu-item">
+                <a href="https://www.humanity.org/" class="menu-link">Humanity Protocol</a>
+            </div>
+            <div class="menu-item">
+                <a href="/logout" class="menu-link">Log Out</a>
+            </div>
+        </div>
+    </aside>
+    
+    <div class="post-container">
+        <textarea class="post-textbox" placeholder="What's on your mind?" maxlength="280"></textarea>
+        <input type="file" id="media-upload" accept="image/*" style="display: none;">
+        <div class="button-container">
+            <button onclick="document.getElementById('media-upload').click();" id="add-image-btn" class="image-button"></button>
+            <span class="char-counter">280</span>
+            <button class="post-button">Post</button>
+        </div>
+    </div>
+
+    <aside class="sidebar right">
+        <input type="text" class="search-textbox" placeholder="Search..." id="search-bar">
+        <div class="trending">
+            <h3>What's Happening</h3>
+            <ul>
+                <li>Trending Topic 1</li>
+                <li>Trending Topic 2</li> 
+                <li>Trending Topic 3</li>
+            </ul>
+        </div>
+    </aside>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textbox = document.querySelector('.post-textbox');
+            const counter = document.querySelector('.char-counter');
+            const maxLength = 280;
+
+            function updateCounter() {
+                const remaining = maxLength - textbox.value.length;
+                counter.textContent = remaining;
+                
+                // Update counter color based on remaining characters
+                counter.classList.remove('warning', 'error');
+                if (remaining <= 20) {
+                    counter.classList.add('error');
+                } else if (remaining <= 40) {
+                    counter.classList.add('warning');
+                }
+            }
+
+            textbox.addEventListener('input', updateCounter);
+            updateCounter(); // Initial count
+        });
+    </script>
+</body>
+</html>
