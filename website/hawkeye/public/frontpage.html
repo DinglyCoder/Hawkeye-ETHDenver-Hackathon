@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Twitter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #1DA1F2;
+            --color-background: #15202B;
+            --color-gray: #192734;
+            --color-border: #38444D;
+            --color-text: #E1E8ED;
+            --color-button: #1DA1F2;
+            --color-button-hover: #1A91DA;
+            --color-input-bg: #22303C;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            font-family: Arial, sans-serif;
+        }
+
+        .login-container {
+            background: var(--color-gray);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--color-border);
+            border-radius: 5px;
+            background: var(--color-input-bg);
+            color: var(--color-text);
+            font-size: 16px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: var(--color-button);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background: var(--color-button-hover);
+        }
+
+        .oauth-login {
+            margin-top: 15px;
+        }
+
+        .oauth-login button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: white;
+            color: black;
+            border: 1px solid var(--color-border);
+            padding: 12px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .oauth-login button:hover {
+            background: #f5f5f5;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <img src="website/hawkeye/public/frontpage.html" alt="Twitter Logo" width="50">
+        <h2>Login to Twitter</h2>
+        
+        <input type="text" placeholder="Email or Username" id="username">
+        <input type="password" placeholder="Password" id="password">
+        <button id="login-button">Log In</button>
+
+        <div class="oauth-login">
+            <button id="oauth-button">
+                <i class="fab fa-twitter"></i> Sign in with Twitter
+            </button>
+        </div>
+
+        <div class="footer">
+            <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-button').addEventListener('click', function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                alert("Please enter both username and password.");
+                return;
+            }
+
+            // Simulate authentication (Replace with actual API call)
+            alert("Logged in successfully!");
+            window.location.href = "dashboard.html";
+        });
+
+        document.getElementById('oauth-button').addEventListener('click', function() {
+            // Redirect to Twitter OAuth login
+            window.location.href = "https://api.twitter.com/oauth/authenticate";
+        });
+    </script>
+
+</body>
+</html>
