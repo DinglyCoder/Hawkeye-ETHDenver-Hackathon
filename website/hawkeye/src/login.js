@@ -9,12 +9,9 @@ function Login() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const user = params.get("user");
-    const id = params.get("id");
 
-    if (user && id) {
+    if (user) {
       setTwitterUser(user);
-      setTwitterId(id);
-
       // Clear query params from URL for a cleaner look
       navigate("/", { replace: true });
     }
@@ -28,7 +25,7 @@ function Login() {
           <button className="twitter-button">Login with Twitter</button>
         </a>
       ) : (
-        <p>Welcome, @{twitterUser} (ID: {twitterId})!</p>
+        <p>Welcome, @{twitterUser}!</p>
       )}
     </div>
   );
