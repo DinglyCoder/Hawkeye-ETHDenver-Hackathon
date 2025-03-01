@@ -8,6 +8,7 @@ function Home() {
   const [searchParams] = useSearchParams();
   const user = searchParams.get("user");
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const [postContent, setPostContent] = React.useState("");
   const [isPosting, setIsPosting] = React.useState(false);
   const maxChars = 280;
@@ -30,6 +31,8 @@ function Home() {
     return "char-counter";
   };
 =======
+=======
+>>>>>>> Stashed changes
   const [postContent, setPostContent] = useState("");
   const [isPosting, setIsPosting] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -65,6 +68,9 @@ function Home() {
   useEffect(() => {
     fetchPosts();
   }, []);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   const handlePost = async () => {
