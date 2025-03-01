@@ -6,27 +6,27 @@ function Tweet({
     handle, 
     content, 
     timestamp,
-    avatar,
     likes = 0,
     comments = 0,
     shares = 0,
     isLiked = false,
-    onLike,
-    onComment,
-    onShare
+    onLike = () => {},
+    onComment = () => {},
+    onShare = () => {},
+    avatar = null
 }) {
     const [likeCount, setLikeCount] = useState(likes);
     const [isLikedState, setIsLikedState] = useState(isLiked);
 
     const handleLike = () => {
-        if (onLike) {
-            onLike(!isLikedState);
-        }
-        setIsLikedState(!isLikedState);
-        setLikeCount(prev => isLikedState ? prev - 1 : prev + 1);
+        const newLikeState = !isLikedState;
+        onLike(newLikeState);
+        setIsLikedState(newLikeState);
+        setLikeCount(prev => newLikeState ? prev + 1 : prev - 1);
     };
 
     const formatTimestamp = (timestamp) => {
+        if (!timestamp) return '';
         const date = new Date(timestamp);
         const now = new Date();
         const diff = now - date;
@@ -69,7 +69,7 @@ function Tweet({
             <div className="tweet-actions">
                 <button 
                     className="tweet-action" 
-                    onClick={() => onComment && onComment()}
+                    onClick={onComment}
                     title="Comment"
                 >
                     <i className="far fa-comment"></i>
@@ -87,7 +87,7 @@ function Tweet({
 
                 <button 
                     className="tweet-action"
-                    onClick={() => onShare && onShare()}
+                    onClick={onShare}
                     title="Share"
                 >
                     <i className="far fa-share-square"></i>
@@ -98,4 +98,4 @@ function Tweet({
     );
 }
 
-export default Tweet; 
+export default Tweet;

@@ -1,4 +1,5 @@
-import React from "react";
+// Home.jsx
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./Home.css";
 import TweetFeed from "./components/TweetFeed";
@@ -6,6 +7,7 @@ import TweetFeed from "./components/TweetFeed";
 function Home() {
   const [searchParams] = useSearchParams();
   const user = searchParams.get("user");
+<<<<<<< Updated upstream
   const [postContent, setPostContent] = React.useState("");
   const [isPosting, setIsPosting] = React.useState(false);
   const maxChars = 280;
@@ -27,16 +29,69 @@ function Home() {
     if (remaining <= 40) return "char-counter warning";
     return "char-counter";
   };
+=======
+  const [postContent, setPostContent] = useState("");
+  const [isPosting, setIsPosting] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // PostPage functionality integrated
+  // Fetch posts from API
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/posts', {
+        credentials: 'include'
+      });
+      
+      if (!response.ok) throw new Error('Failed to fetch posts');
+      
+      const result = await response.json();
+      
+      if (result.error) {
+        throw new Error(result.error);
+      }
+      
+      // Access the data property directly
+      setPosts(result.data || []); // Ensure we fallback to empty array
+      
+    } catch (err) {
+      setError(err.message);
+      setPosts([]); // Ensure posts is always an array
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+>>>>>>> Stashed changes
+
   const handlePost = async () => {
-    if (!postContent.trim()) return;
+    if (!postContent.trim() || !user) return;
     setIsPosting(true);
-    // Add your post submission logic here
-    setTimeout(() => {
-      setIsPosting(false);
+
+    try {
+      const response = await fetch('http://localhost:5000/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          twitter_handle: user,
+          content: postContent.trim()
+        })
+      });
+
+      if (!response.ok) throw new Error('Post failed');
+      
       setPostContent("");
-    }, 1000);
+      await fetchPosts(); // Refresh the feed
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsPosting(false);
+    }
   };
 
   return (
@@ -77,7 +132,14 @@ function Home() {
             </button>
           </div>
         </div>
-        <TweetFeed />
+
+        {loading ? (
+          <div className="loading">Loading posts...</div>
+        ) : error ? (
+          <div className="error">Error: {error}</div>
+        ) : (
+          <TweetFeed posts={posts} />
+        )}
       </div>
 
       {/* Right Sidebar */}
