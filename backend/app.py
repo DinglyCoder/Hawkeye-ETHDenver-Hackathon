@@ -13,8 +13,8 @@ CORS(app, supports_credentials=True)
 app.secret_key = os.urandom(24)  # Use a secure random key for session
 
 # Twitter API Credentials
-TWITTER_API_KEY = "HcRkrRArbUVQXP9w7P923jEIz"
-TWITTER_API_SECRET = "M650qsIuxX84TXeaV1SN9Jp5ddqRb11P8L84zlQ0jz0SPaTNna"
+TWITTER_API_KEY = "kld3Fo6wBbfpvDxWiGvWz71zJ"
+TWITTER_API_SECRET = "o08N5ybWv8O01lX2V7uUi6cr2j3iSH4shs7MTwp5G6XaD98lV9"
 CALLBACK_URL = "http://127.0.0.1:5000/auth/twitter/callback"
 
 SUPABASE_URL = "https://amgwtlrbfwplpoddkesb.supabase.co"
