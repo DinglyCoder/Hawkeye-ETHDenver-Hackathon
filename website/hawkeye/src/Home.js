@@ -7,32 +7,6 @@ import TweetFeed from "./components/TweetFeed";
 function Home() {
   const [searchParams] = useSearchParams();
   const user = searchParams.get("user");
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const [postContent, setPostContent] = React.useState("");
-  const [isPosting, setIsPosting] = React.useState(false);
-  const maxChars = 280;
-
-  const handleContentChange = (e) => {
-    const text = e.target.value;
-    if (text.length <= maxChars) {
-      setPostContent(text);
-    }
-  };
-
-  const getRemainingChars = () => {
-    return maxChars - postContent.length;
-  };
-
-  const getCounterClass = () => {
-    const remaining = getRemainingChars();
-    if (remaining <= 20) return "char-counter error";
-    if (remaining <= 40) return "char-counter warning";
-    return "char-counter";
-  };
-=======
-=======
->>>>>>> Stashed changes
   const [postContent, setPostContent] = useState("");
   const [isPosting, setIsPosting] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -68,10 +42,6 @@ function Home() {
   useEffect(() => {
     fetchPosts();
   }, []);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
   const handlePost = async () => {
     if (!postContent.trim() || !user) return;
@@ -122,13 +92,10 @@ function Home() {
             className="post-textbox"
             placeholder="What's happening in Web3?"
             value={postContent}
-            onChange={handleContentChange}
-            maxLength={maxChars}
+            onChange={(e) => setPostContent(e.target.value)}
+            maxLength={280}
           />
           <div className="post-footer">
-            <span className={getCounterClass()}>
-              {getRemainingChars()}
-            </span>
             <button
               className="post-button"
               onClick={handlePost}
