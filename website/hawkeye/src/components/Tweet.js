@@ -29,16 +29,37 @@ function Tweet({
         if (!timestamp) return '';
         const date = new Date(timestamp);
         const now = new Date();
-        const diff = now - date;
+        
+        // Check if the date is valid
+        if (isNaN(date.getTime())) {
+            return '';
+        }
+
+        // If the date is in the future, show the actual date
+        if (date > now) {
+            return date.toLocaleDateString();
+        }
+
+        const diff = Math.max(0, now - date); // Ensure difference is not negative
         const seconds = Math.floor(diff / 1000);
         const minutes = Math.floor(seconds / 60);
         const hours = Math.floor(minutes / 60);
         const days = Math.floor(hours / 24);
 
-        if (days > 0) return `${days}d`;
-        if (hours > 0) return `${hours}h`;
-        if (minutes > 0) return `${minutes}m`;
-        return `${seconds}s`;
+        // Format the time difference
+        if (days > 7) {
+            return date.toLocaleDateString();
+        } else if (days > 0) {
+            return `${days}d`;
+        } else if (hours > 0) {
+            return `${hours}h`;
+        } else if (minutes > 0) {
+            return `${minutes}m`;
+        } else if (seconds > 0) {
+            return `${seconds}s`;
+        } else {
+            return 'now';
+        }
     };
 
     return (

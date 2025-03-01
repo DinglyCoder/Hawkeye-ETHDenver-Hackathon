@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./Home.css";
 import TweetFeed from "./components/TweetFeed";
+import ConfirmPopup from "./components/ConfirmPopup";
 
 function Home() {
   const [searchParams] = useSearchParams();
   const user = searchParams.get("user");
   const [postContent, setPostContent] = useState("");
   const [isPosting, setIsPosting] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -62,10 +64,15 @@ function Home() {
     fetchPosts();
   }, []);
 
-  const handlePost = async () => {
-    if (!postContent.trim() || !user) return;
-    setIsPosting(true);
+  const handlePostClick = () => {
+    if (!postContent.trim()) return;
+    setShowPopup(true);
+  };
 
+  const handleConfirmPost = async () => {
+    setShowPopup(false);
+    setIsPosting(true);
+    
     try {
       const response = await fetch('http://localhost:5000/posts', {
         method: 'POST',
@@ -87,6 +94,10 @@ function Home() {
     } finally {
       setIsPosting(false);
     }
+  };
+
+  const handleCancelPost = () => {
+    setShowPopup(false);
   };
 
   return (
@@ -111,13 +122,16 @@ function Home() {
             className="post-textbox"
             placeholder="What's happening in Web3?"
             value={postContent}
-            onChange={(e) => setPostContent(e.target.value)}
-            maxLength={280}
+            onChange={handleContentChange}
+            maxLength={maxChars}
           />
           <div className="post-footer">
+            <span className={getCounterClass()}>
+              {getRemainingChars()}
+            </span>
             <button
               className="post-button"
-              onClick={handlePost}
+              onClick={handlePostClick}
               disabled={isPosting || !postContent.trim()}
             >
               {isPosting ? "Posting..." : "Post"}
@@ -144,6 +158,14 @@ function Home() {
           />
         </div>
       </div>
+
+      {/* Confirmation Popup */}
+      {showPopup && (
+        <ConfirmPopup
+          onConfirm={handleConfirmPost}
+          onCancel={handleCancelPost}
+        />
+      )}
     </div>
   );
 }
