@@ -67,3 +67,31 @@
 .cancel-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
 } 
+
+.status-message {
+    color: var(--color-primary);
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .tx-link a {
+    color: var(--color-orange);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .tx-link a:hover {
+    text-decoration: underline;
+  }
+  
+  .input-box {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    background: var(--color-gray);
+    color: white;
+    resize: vertical;
+    min-height: 80px;
+  }

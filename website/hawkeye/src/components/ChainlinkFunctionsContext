@@ -1,0 +1,40 @@
+// ChainlinkFunctionsContext.js
+import { SubscriptionManager } from '@chainlink/functions-toolkit';
+import { ethers } from 'ethers';
+import React, { createContext, useContext } from 'react';
+
+const ChainlinkFunctionsContext = createContext();
+
+export function ChainlinkFunctionsProvider({ children }) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    const makeRequest = async (subscriptionId, content) => {
+        // Initialize Chainlink components
+        const subscriptionManager = new SubscriptionManager({
+            signer,
+            linkTokenAddress: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+            functionsRouterAddress: "0xb83E47C2bC239B3bf370bc41e1459A34b41238D0"
+        });
+        
+        await subscriptionManager.initialize();
+
+        // Execute request
+        const tx = await subscriptionManager.sendRequest({
+            subscriptionId: Number(subscriptionId),
+            args: [content],
+            gasLimit: 300000,
+            donId: "fun-ethereum-sepolia-1"
+        });
+
+        return tx.hash;
+    };
+
+    return (
+        <ChainlinkFunctionsContext.Provider value={{ makeRequest }}>
+            {children}
+        </ChainlinkFunctionsContext.Provider>
+    );
+}
+
+export const useChainlinkFunctions = () => useContext(ChainlinkFunctionsContext);

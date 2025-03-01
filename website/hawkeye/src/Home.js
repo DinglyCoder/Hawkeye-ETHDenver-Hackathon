@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./Home.css";
-import TweetFeed from "./components/TweetFeed";
 import ConfirmPopup from "./components/ConfirmPopup";
+import TweetFeed from "./components/TweetFeed";
 
 function Home() {
   const [searchParams] = useSearchParams();
@@ -14,14 +14,16 @@ function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [txLink, setTxLink] = useState(null);
   const maxChars = 280;
 
   const handleContentChange = (e) => {
     const text = e.target.value;
     if (text.length <= maxChars) {
       setPostContent(text);
-    }
+    } 
   };
+  
 
   const getRemainingChars = () => {
     return maxChars - postContent.length;
@@ -69,11 +71,14 @@ function Home() {
     setShowPopup(true);
   };
 
-  const handleConfirmPost = async () => {
+  const handleConfirmPost = async (transactionLink) => {
     setShowPopup(false);
     setIsPosting(true);
     
     try {
+      // Append transaction link to post content
+      const verifiedContent = `${postContent.trim()}\n\nVerified TX: ${transactionLink}`;
+
       const response = await fetch('http://localhost:5000/posts', {
         method: 'POST',
         headers: {
@@ -81,20 +86,22 @@ function Home() {
         },
         body: JSON.stringify({
           twitter_handle: user,
-          content: postContent.trim()
+          content: verifiedContent  // Use the verified content with TX link
         })
       });
 
       if (!response.ok) throw new Error('Post failed');
       
       setPostContent("");
-      await fetchPosts(); // Refresh the feed
+      setTxLink(null);
+      await fetchPosts();
     } catch (err) {
       setError(err.message);
     } finally {
       setIsPosting(false);
     }
   };
+
 
   const handleCancelPost = () => {
     setShowPopup(false);
@@ -162,8 +169,9 @@ function Home() {
       {/* Confirmation Popup */}
       {showPopup && (
         <ConfirmPopup
-          onConfirm={handleConfirmPost}
+          onConfirm={(txLink) => handleConfirmPost(txLink)}
           onCancel={handleCancelPost}
+          onTransactionComplete={(txLink) => setTxLink(txLink)}
         />
       )}
     </div>
