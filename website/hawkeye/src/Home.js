@@ -77,7 +77,7 @@ function Home() {
     
     try {
       // Append transaction link to post content
-      const verifiedContent = `${postContent.trim()}\n\nVerified TX: ${transactionLink}`;
+      const verifiedContent = `${postContent.trim()} ${transactionLink}`;
 
       const response = await fetch('http://localhost:5000/posts', {
         method: 'POST',

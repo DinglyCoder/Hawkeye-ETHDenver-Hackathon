@@ -1,16 +1,41 @@
 import { ethers } from "ethers";
 import React, { useState } from "react";
-import abi from "./abi.json"; // Import your contract ABI
+import abi from "./abi.json";
 import "./ConfirmPopup.css";
 
-const CONTRACT_ADDRESS = "0x8e0448d551f8edcc3e44697256f53bfa76e5f4a2"; // Replace with actual contract
-const EXPLORER_URL = "https://sepolia.etherscan.io/tx/"; // Sepolia explorer
+const CONTRACT_ADDRESS = "0x758997AdA4c44d944E784D90B307C70dFdc99628";
+const EXPLORER_URL = "https://sepolia.etherscan.io/tx/";
 
 function ConfirmPopup({ onConfirm, onCancel, onTransactionComplete }) {
   const [isVerifying, setIsVerifying] = useState(false);
   const [credential, setCredential] = useState("");
   const [transactionLink, setTransactionLink] = useState(null);
   const [status, setStatus] = useState("");
+  const [character, setCharacter] = useState("");
+
+  const readCharacterFromContract = async (contract) => {
+    try {
+      setStatus("Waiting to read character... ⌛");
+      // Wait 60 seconds before reading
+      await new Promise(resolve => setTimeout(resolve, 70000));
+      
+      const characterValue = await contract.character();
+      const parsedData = JSON.parse(characterValue);
+      if (parsedData.isValid) {
+        setStatus(`✅ ${parsedData.message}`);
+        setCharacter(parsedData.message);
+      } else {
+        setStatus("❌ Verification Failed");
+        setCharacter(parsedData.message || "No failure details provided");
+      }
+  
+      console.log("Verification result:", parsedData);
+      console.log("Character value:", characterValue);
+    } catch (error) {
+      console.error("Error reading character:", error);
+      setStatus("Failed to read character ❌");
+    }
+  };
 
   const handleTransaction = async () => {
     if (!credential.trim()) {
@@ -33,22 +58,25 @@ function ConfirmPopup({ onConfirm, onCancel, onTransactionComplete }) {
 
       setStatus("Sending transaction...");
 
-      // **Send transaction with the verification credential**
+      // Send transaction
       const tx = await contract.sendRequest(credential);
-        await tx.wait();
+      await tx.wait();
 
-        const txLink = `${EXPLORER_URL}${tx.hash}`;
-        
-        // Update transaction link in parent (optional)
-        onTransactionComplete(txLink);
-        
-        setTransactionLink(txLink);
-        setStatus("Transaction Confirmed ✅");
+      const txLink = `🛡️Humanity Protocol Verified TX: ${EXPLORER_URL}${tx.hash}`;
+      
+      // Update parent component with TX link
+      onTransactionComplete(txLink);
+      setTransactionLink(txLink);
+      setStatus("Transaction Confirmed ✅");
 
-        // Auto-close popup and confirm post after delay
-        setTimeout(() => {
-        onConfirm(txLink); // Pass txLink to parent ONCE
-        }, 1000);
+      // Start character retrieval process
+      await readCharacterFromContract(contract);
+
+      // Close popup and confirm post
+      setTimeout(() => {
+        onConfirm(txLink);
+      }, 1000);
+
     } catch (error) {
       console.error("Transaction error:", error);
       setStatus("Transaction Failed ❌");
@@ -76,6 +104,11 @@ function ConfirmPopup({ onConfirm, onCancel, onTransactionComplete }) {
           </button>
         </div>
         {status && <p className="status-message">{status}</p>}
+        {character && (
+          <p className="character-info">
+            Contract Character: <strong>{character}</strong>
+          </p>
+        )}
         {transactionLink && (
           <p className="tx-link">
             <a href={transactionLink} target="_blank" rel="noopener noreferrer">

@@ -1,6 +1,7 @@
 import { BrowserProvider } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import React Router navigation
+import logo from "./hawkeye_logo.png";
 import "./login.css";
 
 function Login() {
@@ -51,7 +52,7 @@ function Login() {
     <div className="login-page">
       <div className="split logo-side">
         <div className="logo-container">
-          <img src="../assets/icons/hawkeye_logo.png" alt="Hawkeye Logo" />
+          <img src={logo} alt="Hawkeye Logo" />
           <p className="tagline">Empowering Web3 Communication</p>
         </div>
       </div>
