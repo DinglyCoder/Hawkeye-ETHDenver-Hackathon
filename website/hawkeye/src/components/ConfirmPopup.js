@@ -16,24 +16,31 @@ function ConfirmPopup({ onConfirm, onCancel, onTransactionComplete }) {
   const readCharacterFromContract = async (contract) => {
     try {
       setStatus("Waiting to read character... ⌛");
-      // Wait 60 seconds before reading
       await new Promise(resolve => setTimeout(resolve, 70000));
       
       const characterValue = await contract.character();
       const parsedData = JSON.parse(characterValue);
+      
+      // Check if isValid exists in the response
+      if (!parsedData.hasOwnProperty('isValid')) {
+        setStatus("❌ Invalid verification response");
+        setCharacter("Missing isValid field in response");
+        return false; // Return failure status
+      }
+  
       if (parsedData.isValid) {
         setStatus(`✅ ${parsedData.message}`);
         setCharacter(parsedData.message);
+        return true; // Return success status
       } else {
         setStatus("❌ Verification Failed");
         setCharacter(parsedData.message || "No failure details provided");
+        return false;
       }
-  
-      console.log("Verification result:", parsedData);
-      console.log("Character value:", characterValue);
     } catch (error) {
       console.error("Error reading character:", error);
       setStatus("Failed to read character ❌");
+      return false;
     }
   };
 
@@ -70,8 +77,13 @@ function ConfirmPopup({ onConfirm, onCancel, onTransactionComplete }) {
       setStatus("Transaction Confirmed ✅");
 
       // Start character retrieval process
-      await readCharacterFromContract(contract);
-
+      const verificationSuccess = await readCharacterFromContract(contract);
+    
+      if (!verificationSuccess) {
+        setStatus("Verification check failed - aborting post");
+        setIsVerifying(false);
+        return; // Exit without confirming
+      }
       // Close popup and confirm post
       setTimeout(() => {
         onConfirm(txLink);
