@@ -7,9 +7,11 @@ import TweetFeed from "./components/TweetFeed";
 function Home() {
   const [searchParams] = useSearchParams();
   const user = searchParams.get("user");
-<<<<<<< Updated upstream
-  const [postContent, setPostContent] = React.useState("");
-  const [isPosting, setIsPosting] = React.useState(false);
+  const [postContent, setPostContent] = useState("");
+  const [isPosting, setIsPosting] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const maxChars = 280;
 
   const handleContentChange = (e) => {
@@ -29,12 +31,6 @@ function Home() {
     if (remaining <= 40) return "char-counter warning";
     return "char-counter";
   };
-=======
-  const [postContent, setPostContent] = useState("");
-  const [isPosting, setIsPosting] = useState(false);
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   // Fetch posts from API
   const fetchPosts = async () => {
@@ -65,7 +61,6 @@ function Home() {
   useEffect(() => {
     fetchPosts();
   }, []);
->>>>>>> Stashed changes
 
   const handlePost = async () => {
     if (!postContent.trim() || !user) return;
