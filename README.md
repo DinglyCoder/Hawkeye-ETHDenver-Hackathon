@@ -17,6 +17,21 @@ Our memmbers include:
 
 # How to Test and Run
 
+1. Start the backend server:
+```bash
+cd backend
+npm install
+npm start
+```
+
+2. Start the frontend application:
+```bash
+cd website/hawkeye
+npm start
+```
+
+The application will be available at `http://localhost:3000`
+
 # Humanity Protocol Feedback
 * Humanity Protocol seems to be in early stages of development so we took that into account when we encountered issues. We appreciate the dev team for responding to our questions and guiding our project.
 * There wasn't clear how user credentials are collected in pracitice. Our project assumes there is a seperate credential collection service.
