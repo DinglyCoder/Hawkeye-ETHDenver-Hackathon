@@ -14,9 +14,12 @@
   border-right: 1px solid var(--color-border);
   padding: 20px;
   position: sticky;
+  overflow-y: auto;
   top: 0;
-  height: 100vh;
+  height: calc(100vh - 40px);
   width: 250px;
+  margin-left: 40px;
+  margin-top: 20px;
 }
 
 .main-feed {
@@ -36,6 +39,9 @@
   top: 0;
   height: 100vh;
   width: 300px;
+  margin-right: 40px;
+  margin-top: 20px;
+  transform: translateX(-40px);
 }
 
 /* Navigation */
@@ -129,7 +135,7 @@
 
 /* Search */
 .search-container {
-  position: relative;
+  position: sticky;
 }
 
 .search-input {
@@ -160,6 +166,15 @@
   .app-layout {
     grid-template-columns: 250px minmax(auto, 800px) 300px;
   }
+
+  .left-sidebar {
+    margin-left: 20px;
+  }
+
+  .right-sidebar {
+    margin-right: 20px;
+    transform: translateX(-20px);
+  }
 }
 
 @media (max-width: 1024px) {
@@ -169,6 +184,13 @@
   
   .left-sidebar {
     width: 80px;
+    margin-left: 10px;
+    padding: 15px;
+  }
+  
+  .right-sidebar {
+    margin-right: 10px;
+    transform: translateX(-10px);
   }
   
   .nav-button {
