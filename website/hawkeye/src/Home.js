@@ -111,13 +111,10 @@ function Home() {
             className="post-textbox"
             placeholder="What's happening in Web3?"
             value={postContent}
-            onChange={handleContentChange}
-            maxLength={maxChars}
+            onChange={(e) => setPostContent(e.target.value)}
+            maxLength={280}
           />
           <div className="post-footer">
-            <span className={getCounterClass()}>
-              {getRemainingChars()}
-            </span>
             <button
               className="post-button"
               onClick={handlePost}
