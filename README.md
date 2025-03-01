@@ -3,8 +3,8 @@ Decentralized Human verification for X posts to guarentee a post was made by a H
 # What is the project
 These days, with the rise of AI agents and bot accounts, social media appears to heve fewer human-to-human interaction. There is a growing need for real conversations with real people. We set out to create an auxilary website that can provide proof that a post on X was created and posted by a real human and not an autonomous bot.
 We used the Humanity Protocol API to validate the credentials of a user. Once a user is validated they can submit a post on the website page which posts on X.com on behalf of their account with a humanity verification link. 
+The Humanity Protocol API is called from a smart contract on the Chainlink Protocol. We utilize Chainlink's off-platform API calling functionality in our smart contract. This ensures a decentralized, trustless, and verifiable human authentification process.
 
-### Explain the Chainlink part
 
 # About Us
 Our team is a team of Students from The University of Texas at Austin. We represent the Texas Blockchain student organization. 
