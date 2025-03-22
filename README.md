@@ -1,5 +1,7 @@
 Decentralized Human verification for X posts to guarentee a post was made by a Human and not a bot.
 
+Devfolio Link with proof of winning: https://devfolio.co/projects/hawkeye-6756
+
 # What is the project
 These days, with the rise of AI agents and bot accounts, social media appears to heve fewer human-to-human interaction. There is a growing need for real conversations with real people. We set out to create an auxilary website that can provide proof that a post on X was created and posted by a real human and not an autonomous bot.
 We used the Humanity Protocol API to validate the credentials of a user. Once a user is validated they can submit a post on the website page which posts on X.com on behalf of their account with a humanity verification link. 
